@@ -1,0 +1,124 @@
+.cart {
+    margin-top: 100px;
+    margin-bottom: 99px;
+}
+.cart-title {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    color: gray;
+    font-size: max(1vw, 12px);
+}
+.cart-title p{
+    display: flex;
+    justify-content: center;
+    width: 150px;
+}
+.cart-item {
+    margin: 7px 0px;
+    color: white;
+}
+.cart-item div {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+}
+.cart-item img {
+    width: 70px;
+    height: 50px;
+}
+.cart-item .trash {
+    width: 22px;
+    cursor: pointer;
+}
+.cart hr {
+    height: 1px;
+    background-color: #332D2D;
+    border: none;
+}
+.cart-bottom {
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    gap: max(12vw, 20px);
+}
+.cart-total {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* background-color: #332D2D;
+    padding: 20px; */
+}
+.cart-total-details {
+    display: flex;
+    justify-content: space-between;
+}
+.cart-total-details p{
+    margin: 10px 0px;
+}
+.cart-total-details hr {
+    height: 2px;
+    border: none;
+    color: #332D2D;
+}
+.cart-total button {
+    border: none;
+    color: black;
+    font-weight: 500;
+    background-color: tomato;
+    width: max(15vw, 200px);
+    padding: 12px 0px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.cart-promo {
+    flex: 1;
+}
+.cart-promo p {
+    padding-bottom: 10px;
+    padding-left: 39px;
+}
+.cart-input {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+.cart-input input {
+    background: transparent;
+    color: white;
+    width: 300px;
+    border: 1px solid white;
+    border-radius: 50px;
+    outline: none;
+    padding: 10px 18px;
+    font-size: 14px;
+}
+.cart-input input::placeholder {
+    color: white;
+}
+.cart-input button {
+    background: transparent;
+    color: white;
+    font-size: 15px;
+    padding: 10px 30px;
+    border: 2px solid tomato;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.cart-input button:hover {
+    background-color: tomato;
+    color: black;
+}
+@media (max-width: 750px) {
+    .cart-bottom {
+        flex-direction: column-reverse;
+    }
+    .cart-promo {
+        justify-content: start;
+    }
+}

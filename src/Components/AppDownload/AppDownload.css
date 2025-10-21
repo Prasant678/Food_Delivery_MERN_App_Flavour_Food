@@ -1,0 +1,32 @@
+.app-download {
+    margin: auto auto;
+    margin-top: 80px;
+    font-size: max(3vw, 20px);
+    font-weight: 500;
+    text-align: center;
+}
+
+.app-download-platform {
+    display: flex;
+    justify-content: center;
+    gap: max(2vw, 10px);
+    margin-top: 30px;
+}
+
+.app-download-platform img {
+    width: max(30vw, 120px);
+    max-width: 180px;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.app-download-platform img:hover {
+    transform: scale(1.13);
+}
+
+.app-download p span {
+    background: linear-gradient(45deg, tomato, #FF0195);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

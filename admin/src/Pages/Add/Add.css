@@ -1,0 +1,64 @@
+.add {
+    width: 70%;
+    margin-left: max(5vw,25px);
+    margin-top: 50px;
+    font-size: 16px;
+}
+
+.add form {
+    gap: 20px;
+}
+
+.img-upload img{
+    width: 100px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.product-name, .product-description {
+    width: max(40%, 280px);
+}
+.product-name input, .product-description textarea {
+    padding: 10px;
+    background: transparent;
+    outline: none;
+    border: 1px solid tomato;
+    border-radius: 4px;
+    color: white;
+}
+.product-name input::placeholder, .product-description textarea::placeholder {
+    color: white;
+}
+.category-price {
+    display: flex;
+    gap: 30px;
+}
+.category-price select, .category-price input {
+    max-width: 120px;
+    padding: 6px;
+    background: transparent;
+    color: white;
+    border: 1px solid tomato;
+    outline: none;
+    border-radius: 4px;
+}
+.category-price option {
+    background-color: #332d2d;
+}
+.category-price input::placeholder {
+    color: white;
+}
+.add-btn {
+    max-width: 120px;
+    border: 1.5px solid tomato;
+    border-radius: 4px;
+    padding: 10px;
+    background: transparent;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+}
+.add-btn:hover {
+    background-color: tomato;
+    color: black;
+    font-weight: 500;
+}

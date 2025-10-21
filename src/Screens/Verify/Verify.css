@@ -1,0 +1,30 @@
+.order-success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f8ff;
+  }
+  
+  .order-success-card {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  
+  .order-success-card h1 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+  }
+  
+  .home-link {
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background-color: #2e7d32;
+    padding: 10px 20px;
+    border-radius: 6px;
+  }
