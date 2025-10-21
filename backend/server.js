@@ -25,7 +25,11 @@ cloudinary.v2.config({
 })
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true // if you need cookies/auth headers
+}));
+
 app.use(fileUpload({
     useTempFiles: true
 }))
@@ -37,10 +41,10 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/order", orderRouter);
 
-app.get("/", (req, res)=> {
+app.get("/", (req, res) => {
     res.send("API Working");
 })
 
-app.listen(port, ()=> {
+app.listen(port, () => {
     console.log(`server started on http://localhost:${port}`)
 })
