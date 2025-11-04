@@ -6,9 +6,13 @@ import Cart from './Screens/Cart/Cart'
 import PlaceOrder from './Screens/PlaceOrder/PlaceOrder'
 import Footer from './Components/Footer/Footer'
 import Login from './Components/Login/Login'
-// import Verify from './Screens/Verify/Verify'
 import OrderSuccess from './Screens/OrderSuccess/OrderSuccess'
 import OrderFailed from './Screens/OrderFailed/OrderFailed'
+import Profile from './Screens/profile/Profile'
+import Orders from './Screens/Orders/Orders'
+import OrderDetails from './Screens/OrderDetails/OrderDetails'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [showSignin, setShowSignin] = useState(false);
@@ -23,9 +27,13 @@ const App = () => {
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/order-failed" element={<OrderFailed />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/order/:orderId" element={<OrderDetails />} />
         </Routes>
       </div>
       <Footer />
+      <ToastContainer position='bottom-right' theme='dark' />
     </>
   )
 }

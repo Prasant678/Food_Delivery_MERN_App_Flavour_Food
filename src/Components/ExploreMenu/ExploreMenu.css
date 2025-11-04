@@ -7,10 +7,15 @@
     margin-left: 33px;
     font-size: 30px;
     font-weight: 500;
+    color: #d4d4d8;
+    letter-spacing: 0.025em;
 }
 .explore-menu-text{
     margin-left: 33px;
-    max-width: 70%;
+    max-width: 80%;
+    color: #d4d4d8;
+    letter-spacing: 0.06em;
+    line-height: 22px;
 }
 .explore-menu-list {
     display: flex;
@@ -20,6 +25,8 @@
     text-align: center;
     margin: 20px 33px;
     overflow-x: scroll;
+    letter-spacing: 0.025em;
+    color: #d4d4d8;
 }
 .explore-menu-list::-webkit-scrollbar{
     display: none;
@@ -34,8 +41,10 @@
 }
 .explore-menu-list p{
     font-weight: 500;
-    font-size: 17px;
+    font-size: 13px;
     cursor: pointer;
+    width: 5.8rem;
+    letter-spacing: 0.035em;
 }
 .explore-menu hr{
     margin: 0px 20px 15px 20px;
@@ -46,4 +55,8 @@
 .explore-menu-item .active{
     border: 2px solid tomato;
     padding: 3px;
+}
+.explore-menu-item img{
+    height: 80px;
+    width: 82px
 }

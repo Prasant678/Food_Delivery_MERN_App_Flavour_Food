@@ -1,6 +1,8 @@
 .cart {
     margin-top: 100px;
     margin-bottom: 99px;
+    color: #d4d4d8;
+    letter-spacing: 0.06em;
 }
 .cart-title {
     display: grid;
@@ -65,12 +67,13 @@
 .cart-total button {
     border: none;
     color: black;
-    font-weight: 500;
+    font-weight: 600;
     background-color: tomato;
     width: max(15vw, 200px);
     padding: 12px 0px;
     border-radius: 8px;
     cursor: pointer;
+    letter-spacing: 0.04em;
 }
 .cart-promo {
     flex: 1;
@@ -109,6 +112,7 @@
     font-weight: 700;
     cursor: pointer;
     transition: 0.3s;
+    letter-spacing: 0.05em;
 }
 .cart-input button:hover {
     background-color: tomato;

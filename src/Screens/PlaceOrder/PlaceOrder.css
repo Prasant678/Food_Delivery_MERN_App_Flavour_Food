@@ -4,6 +4,8 @@
     justify-content: space-between;
     gap: 50px;
     margin-top: 100px;
+    color: #d4d4d8;
+    letter-spacing: 0.06em;
 }
 .place-order-left {
     width: 100%;
@@ -25,6 +27,7 @@
 }
 .place-order-left input::placeholder {
     color: white;
+    letter-spacing: 0.08em;
 }
 .place-order-left .multi-fields {
     display: flex;
@@ -36,4 +39,5 @@
 }
 .place-order-right .cart-total button {
     margin-top: 10px;
+    letter-spacing: 0.04em;
 }

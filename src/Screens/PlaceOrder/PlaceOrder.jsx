@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../Context/storeContext'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const PlaceOrder = () => {
-  const { getTotalAmount, token, food_list, url, cartItems } = useContext(StoreContext);
+  const { getTotalAmount, token, food_list, url, cartItems, getDeliveryCharge, setCartItems } = useContext(StoreContext);
   const navigate = useNavigate();
   const [data, setData] = useState({
     firstName: "",
@@ -22,125 +23,134 @@ const PlaceOrder = () => {
   const onChangeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setData(data => ({ ...data, [name]: value }));
+    setData(prev => ({ ...prev, [name]: value }));
   }
 
   const placeOrder = async (e) => {
     e.preventDefault();
     let orderItems = [];
-    food_list.map((item) => {
+    food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
-        let itemInfo = item;
-        itemInfo["quantity"] = cartItems[item._id];
+        const itemInfo = { ...item, quantity: cartItems[item._id] };
         orderItems.push(itemInfo);
       }
     });
 
-    let orderData = {
-      address: data,
-      items: orderItems,
-      amount: getTotalAmount() + 2,
-      userId: localStorage.getItem("userId") // Make sure you have userId in localStorage
-    };
+    const totalAmount = getTotalAmount() === 0 ? 0 : getTotalAmount() + getDeliveryCharge();
 
     try {
-      const response = await axios.post(url + "/api/v1/order/place", orderData, {
-        headers: { token },
-      });
+      const razorRes = await axios.post(
+        `${url}/api/v1/order/razorpay-create`,
+        { amount: totalAmount },
+        { headers: { token } }
+      );
 
-      if (response.data.success) {
-        const { order, key, newOrderId } = response.data;
+      if (!razorRes.data.success) {
+        toast.error("Unable to create payment. Try again.");
+        return;
+      }
 
-        const options = {
-          key: key,
-          amount: order.amount,
-          currency: "INR",
-          name: "Flavour Food",
-          description: "Food Order Payment",
-          order_id: order.id,
-          handler: async function (razorpayResponse) {
-            try {
-              console.log("Razorpay response:", razorpayResponse);
+      const razorOrder = razorRes.data.order;
+      const key = razorRes.data.key;
 
-              const verifyRes = await axios.post(
-                url + "/api/v1/order/verify",
-                {
-                  razorpay_order_id: razorpayResponse.razorpay_order_id,
-                  razorpay_payment_id: razorpayResponse.razorpay_payment_id,
-                  razorpay_signature: razorpayResponse.razorpay_signature,
-                  orderId: newOrderId,
+      const options = {
+        key: key,
+        amount: razorOrder.amount,
+        currency: "INR",
+        name: "Flavour Food",
+        description: "Food Order Payment",
+        order_id: razorOrder.id,
+        handler: async function (razorpayResponse) {
+          try {
+            const createRes = await axios.post(
+              `${url}/api/v1/order/create-after-payment`,
+              {
+                razorpay_order_id: razorpayResponse.razorpay_order_id,
+                razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+                razorpay_signature: razorpayResponse.razorpay_signature,
+                items: orderItems,
+                amount: totalAmount,
+                address: {
+                  firstName: data.firstName,
+                  lastName: data.lastName,
+                  email: data.email,
+                  street: data.street,
+                  city: data.city,
+                  state: data.state,
+                  zipcode: data.zipcode,
+                  country: data.country,
+                  phone: data.phone
                 },
-                {
-                  headers: { token },
-                  timeout: 10000 // 10 seconds timeout
-                }
-              );
+              },
+              { headers: { token }, timeout: 15000 }
+            );
 
-              console.log("Verification response:", verifyRes.data);
-
-              if (verifyRes.data.success) {
-                navigate('/order-success', {
-                  state: {
-                    paymentId: razorpayResponse.razorpay_payment_id,
-                    orderId: newOrderId,
-                    amount: order.amount / 100
-                  },
-                  replace: true
-                });
-              } else {
-                console.error("Verification failed:", verifyRes.data.message);
-                navigate('/order-failed', {
-                  state: {
-                    orderId: newOrderId,
-                    error: verifyRes.data.message || "Payment verification failed"
-                  },
-                  replace: true
-                });
-              }
-            } catch (error) {
-              console.error("Verification error:", error);
+            if (createRes.data.success) {
+              setCartItems({});
+              navigate('/order-success', {
+                state: {
+                  paymentId: razorpayResponse.razorpay_payment_id,
+                  orderId: createRes.data.order._id,
+                  amount: totalAmount
+                },
+                replace: true
+              });
+            } else {
               navigate('/order-failed', {
                 state: {
-                  orderId: newOrderId,
-                  error: error.response?.data?.message ||
-                    error.message ||
-                    "Error during payment verification"
+                  orderId: null,
+                  error: createRes.data.message || "Payment verification failed"
                 },
                 replace: true
               });
             }
-          },
-          prefill: {
-            name: data.firstName + " " + data.lastName,
-            email: data.email,
-            contact: data.phone,
-          },
-          notes: {
-            address: `${data.street}, ${data.city}, ${data.state} - ${data.zipcode}`,
-          },
-          theme: {
-            color: "#3399cc",
-          },
-        };
+          } catch (err) {
+            console.error("create-after-payment error:", err);
+            navigate('/order-failed', {
+              state: {
+                orderId: null,
+                error: err.response?.data?.message || err.message || "Error creating order after payment"
+              },
+              replace: true
+            });
+          }
+        },
+        prefill: {
+          name: data.firstName + " " + data.lastName,
+          email: data.email,
+          contact: data.phone,
+        },
+        notes: {
+          address: `${data.street}, ${data.city}, ${data.state} - ${data.zipcode}`,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
 
-        const rzp = new window.Razorpay(options);
-        rzp.on('payment.failed', function (response) {
-          navigate('/order-failed', {
-            state: {
-              orderId: newOrderId,
-              error: response.error.description || "Payment failed"
-            }
-          });
+      const rzp = new window.Razorpay(options);
+
+      rzp.on('payment.failed', function (response) {
+        console.error("razorpay payment.failed:", response);
+        navigate('/order-failed', {
+          state: {
+            orderId: null,
+            error: response.error?.description || "Payment failed"
+          }
         });
-        rzp.open();
-      } else {
-        alert("Failed to create order");
-      }
+      });
+
+      rzp.open();
+
     } catch (error) {
-      console.error("Order placement error:", error);
-      alert("Something went wrong while placing the order");
+      console.error("Error in placeOrder flow:", error);
+      toast.error("Something went wrong while placing the order. Try again.");
     }
   }
+
+  const subTotal = useMemo(() => getTotalAmount(), [cartItems]);
+  const deliveryCharge = useMemo(() => getDeliveryCharge(), [cartItems]);
+  const grandTotal = useMemo(() => subTotal + deliveryCharge, [subTotal, deliveryCharge]);
 
   return (
     <form onSubmit={placeOrder} className='place-order'>
@@ -168,15 +178,15 @@ const PlaceOrder = () => {
           <div>
             <div className="cart-total-details">
               <p>SubTotal</p>
-              <p>₹ {getTotalAmount()}</p>
+              <p>₹ {subTotal.toFixed(2)}</p>
             </div>
             <div className="cart-total-details">
               <p>Delivery Charge</p>
-              <p>₹ {getTotalAmount() === 0 ? 0 : 2}</p>
+              <p>{subTotal >= 1200 ? "Free" : `₹ ${deliveryCharge.toFixed(2)}`}</p>
             </div>
             <div className="cart-total-details">
               <p>Grand Total</p>
-              <p>₹ {getTotalAmount() === 0 ? 0 : getTotalAmount() + 2}</p>
+              <p>₹ {subTotal === 0 ? 0 : grandTotal.toFixed(2)}</p>
             </div>
           </div>
           <button type='submit'>PROCEED TO PAYMENT</button>

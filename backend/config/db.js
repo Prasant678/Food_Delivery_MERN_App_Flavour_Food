@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
 export const ConnectDB = async ()=> {
-    await mongoose.connect('mongodb+srv://prasantrao917:Prasant567@cluster0.yzxfbbv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    await mongoose.connect(process.env.MONGO_URI)
     .then(()=>console.log('Database Connected Successfully'))
 }

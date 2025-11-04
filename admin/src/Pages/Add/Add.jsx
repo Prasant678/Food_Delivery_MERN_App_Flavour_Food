@@ -42,6 +42,21 @@ const Add = () => {
       toast.error(response.data.message)
     }
   }
+
+  const categories = [
+    "Salad",
+    "Street Delights",
+    "Pizza",
+    "Chinese",
+    "Pure Veg",
+    "Non Veg",
+    "North Indian",
+    "Biryani & Rice",
+    "South Indian",
+    "Desserts",
+    "Beverages",
+  ];
+  
   return (
     <div className='add'>
       <form className='flex-col' onSubmit={onSubmitHandler}>
@@ -64,14 +79,9 @@ const Add = () => {
           <div className="category flex-col">
             <p>Product Category</p>
             <select onChange={onChangeHandler} name="category">
-              <option value="Salad">Salad</option>
-              <option value="Rolls">Rolls</option>
-              <option value="Deserts">Deserts</option>
-              <option value="Sandwich">Sandwich</option>
-              <option value="Cake">Cake</option>
-              <option value="Pure veg">Pure veg</option>
-              <option value="Pasta">Pasta</option>
-              <option value="Noodles">Noodles</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
           </div>
           <div className="add-price flex-col">

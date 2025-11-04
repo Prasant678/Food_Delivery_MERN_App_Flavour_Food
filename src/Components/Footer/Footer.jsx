@@ -7,8 +7,8 @@ const Footer = () => {
     <div className='footer' id='footer'>
       <div className="footer-content">
         <div className='footer-content-left'>
-            <img className='logo' src={assets.logo1} alt="" />
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur rem, cumque culpa, sed incidunt totam modi expedita architecto mollitia sint, debitis reprehenderit temporibus!</p>
+            <img className='logo' src={assets.logo} alt="" />
+            <p>Flavour Food brings you fresh, delicious meals made with care and quality ingredients. From quick bites to full meals, we’re here to make every craving count.</p>
             <div className="footer-social-icons">
                 <img src={assets.facebook_icon} alt="" />
                 <img src={assets.twitter_icon} alt="" />
@@ -33,7 +33,7 @@ const Footer = () => {
         </div>
       </div>
       <hr />
-      <p className="footer-copyright">Copyright 2024 © flavourfood.com - All Right Reserved</p>
+      <p className="footer-copyright" style={{ color: "#d4d4d8", letterSpacing: "0.10em"}}>Copyright 2024 © flavourfood.com - All Right Reserved</p>
     </div>
   )
 }

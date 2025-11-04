@@ -26,8 +26,8 @@ cloudinary.v2.config({
 
 app.use(express.json());
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true // if you need cookies/auth headers
+    origin: [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ADMIN],
+    credentials: true
 }));
 
 app.use(fileUpload({

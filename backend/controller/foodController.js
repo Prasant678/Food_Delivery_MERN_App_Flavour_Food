@@ -2,7 +2,7 @@ import foodModel from "../models/foodModel.js";
 import { v2 as cloudinary } from "cloudinary";
 
 
-const addFood = async (req, res) => {
+const addFood = async (req, res, next) => {
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
             return next("Project Banner Image Required!", 404);
@@ -60,4 +60,26 @@ const removeFood = async (req, res) => {
     }
 }
 
-export { addFood, listFood, removeFood }
+const updateFood = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, description, category } = req.body;
+
+    const updatedFood = await foodModel.findByIdAndUpdate(
+      id,
+      { name, price, description, category },
+      { new: true }
+    );
+
+    if (!updatedFood) {
+      return res.status(404).json({ success: false, message: "Food item not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Food updated successfully", data: updatedFood });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { addFood, listFood, removeFood, updateFood }

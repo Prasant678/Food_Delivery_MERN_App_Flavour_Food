@@ -4,6 +4,7 @@ import { assets } from '../../assets/assets';
 import { useContext } from 'react';
 import { StoreContext } from '../../Context/storeContext';
 import axios from 'axios'
+import { toast } from 'react-toastify';
 
 const Login = ({setShowSignin}) => {
     const {url, setToken} = useContext(StoreContext);
@@ -38,7 +39,7 @@ const Login = ({setShowSignin}) => {
         setShowSignin(false);
       }
       else{
-        alert(response.data.message);
+        toast.error(response.data.message);
       }
     }
   return (

@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0px;
+    padding: 14px 0px;
 }
 .navbar .logo {
     width: 220px;
@@ -12,19 +12,24 @@
     list-style: none;
     gap: 20px;
     font-size: 18px;
-    color: white;
+    color: #d4d4d8;
+    letter-spacing: 0.040em;
 }
 .nav-menu li{
     cursor: pointer;
 }
 .nav-menu .active {
     padding-bottom: 4px;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #d4d4d8;
 }
 .nav-right {
     display: flex;
     align-items: center;
     gap: 30px;
+}
+.nav-right li {
+    list-style-type: none;
+    cursor: pointer;
 }
 .nav-right button{
     background: transparent;
@@ -64,25 +69,25 @@
 .nav-profile-dropdown {
     position: absolute;
     display: none;
-    left: -190%;
+    left: 0%;
     z-index: 1;
     width: 120px;
     margin-top: 6px;
+    letter-spacing: 0.045em;
 }
-.nav-profile:hover .nav-profile-dropdown {
+.nav-profile .nav-profile-dropdown {
     display: flex;
     flex-direction: column;
     gap: 10px;
     background-color: #332D2D;
     padding: 12px 15px;
     border-radius: 4px;
-    border: 1px solid tomato;
     list-style: none;
 }
 .nav-profile-dropdown li{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     cursor: pointer;
 }
 .nav-profile-dropdown hr{
@@ -94,10 +99,10 @@
     padding: 2.3px 2.3px;
 }
 .nav-profile-dropdown .profile-text:hover{
-    color: tomato;
+    color: #d4d4d8;
 }
 .nav-profile-dropdown .order:hover{
-    color: tomato;
+    color: #d4d4d8;
 }
 .nav-profile-dropdown .logout:hover{
     color: #DC4C64;

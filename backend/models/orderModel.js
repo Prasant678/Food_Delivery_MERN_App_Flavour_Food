@@ -28,8 +28,12 @@ const orderSchema = new mongoose.Schema({
     payment: {
         type: Boolean,
         default: false
-    }
-})
+    },
+    razorpay_payment_id: { type: String },
+    razorpay_order_id: { type: String },
+    razorpay_signature: { type: String }
+    
+}, { timestamps: true });
 
 const orderModel = mongoose.models.order || mongoose.model("order", orderSchema);
 export default orderModel;

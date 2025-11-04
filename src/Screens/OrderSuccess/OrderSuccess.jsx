@@ -56,7 +56,7 @@ const OrderSuccess = () => {
     <div className="order-success-container">
       <div className="success-icon">✓</div>
       <h2>Payment Successful</h2>
-      <p>Thank you for your order!</p>
+      <p className='order-p'>Thank you for your order!</p>
       
       <div className="order-details">
         <h3>Order Summary</h3>
@@ -87,7 +87,7 @@ const OrderSuccess = () => {
         </ul>
       </div>
 
-      <button className="bt" onClick={() => navigate('/')}>Continue Shopping</button>
+      <button className="bt-s" onClick={() => navigate('/')}>Continue Shopping</button>
     </div>
   )
 }
