@@ -28,7 +28,7 @@ const Add = () => {
     formData.append("price", Number(data.price))
     formData.append("category", data.category)
     formData.append("image", image)
-    const response = await axios.post("http://localhost:5000/api/v1/food/add", formData)
+    const response = await axios.post("https://food-delivery-mern-app-flavour-food.onrender.com/api/v1/food/add", formData)
     if (response.data.success) {
       setData({
         name: "",

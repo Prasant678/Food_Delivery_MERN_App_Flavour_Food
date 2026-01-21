@@ -5,7 +5,7 @@ import "./OrderDetails.css";
 
 const OrderDetails = () => {
     const { orderId } = useParams();
-    const url = "http://localhost:5000";
+    const url = "https://food-delivery-mern-app-flavour-food.onrender.com";
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
 

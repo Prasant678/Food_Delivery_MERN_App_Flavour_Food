@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Orders = () => {
-  const url = "http://localhost:5000";
+  const url = "https://food-delivery-mern-app-flavour-food.onrender.com";
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -27,7 +27,7 @@ const List = () => {
 
   const fetchList = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/v1/food/list");
+      const response = await axios.get("https://food-delivery-mern-app-flavour-food.onrender.com/api/v1/food/list");
       if (response.data.success) {
         const reversedData = response.data.data.reverse();
         setList(reversedData);
@@ -43,7 +43,7 @@ const List = () => {
 
   const removeFood = async (foodId) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/food/remove", { id: foodId });
+      const response = await axios.post("https://food-delivery-mern-app-flavour-food.onrender.com/api/v1/food/remove", { id: foodId });
       if (response.data.success) {
         toast.success(response.data.message);
         fetchList();
@@ -74,7 +74,7 @@ const List = () => {
 
   const handleUpdate = async () => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/v1/food/update/${editItem._id}`, {
+    const response = await axios.put(`https://food-delivery-mern-app-flavour-food.onrender.com/api/v1/food/update/${editItem._id}`, {
       name: editItem.name,
       description: editItem.description,
       price: editItem.price,
