@@ -1,0 +1,32 @@
+name: Keep-Alive Render & MongoDB
+
+on:
+  schedule:
+    # Runs every 14 minutes (Render free tier sleeps after 15 minutes of inactivity)
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Backend Health Endpoint
+        run: |
+          # Use GitHub Secret if set, otherwise fallback to the default Render URL
+          BACKEND_URL="${{ secrets.RENDER_BACKEND_URL }}"
+          if [ -z "$BACKEND_URL" ]; then
+            BACKEND_URL="https://food-delivery-mern-app-flavour-food.onrender.com"
+          fi
+          
+          echo "Pinging health endpoint: ${BACKEND_URL}/api/v1/health"
+          HTTP_RESPONSE=$(curl -s -o response.txt -w "%{http_code}" "${BACKEND_URL}/api/v1/health")
+          
+          echo "HTTP Status Code: $HTTP_RESPONSE"
+          echo "Response Body:"
+          cat response.txt
+          
+          if [ "$HTTP_RESPONSE" -ne 200 ]; then
+            echo "Warning: Health check did not return HTTP 200"
+          else
+            echo "Success: Server and MongoDB are awake and active!"
+          fi

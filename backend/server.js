@@ -1,6 +1,7 @@
 import express from "express";
 import cors from 'cors'
 import { ConnectDB } from "./config/db.js";
+import mongoose from "mongoose";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
 import cloudinary from 'cloudinary';
@@ -44,6 +45,48 @@ app.use("/api/v1/order", orderRouter);
 app.get("/", (req, res) => {
     res.send("API Working");
 })
+
+// Health check endpoint (Keep-Alive for Render & MongoDB Atlas)
+const handleHealthCheck = async (req, res) => {
+    try {
+        const dbState = mongoose.connection.readyState;
+        const dbStatusMap = {
+            0: "Disconnected",
+            1: "Connected",
+            2: "Connecting",
+            3: "Disconnecting"
+        };
+
+        let dbPingMs = null;
+        // Ping MongoDB cluster if connected
+        if (dbState === 1 && mongoose.connection.db) {
+            const start = Date.now();
+            await mongoose.connection.db.admin().ping();
+            dbPingMs = Date.now() - start;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Server and Database are active",
+            timestamp: new Date().toISOString(),
+            uptimeSeconds: Math.floor(process.uptime()),
+            database: {
+                status: dbStatusMap[dbState] || "Unknown",
+                readyState: dbState,
+                pingMs: dbPingMs
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Health check encountered an issue",
+            error: error.message
+        });
+    }
+};
+
+app.get("/health", handleHealthCheck);
+app.get("/api/v1/health", handleHealthCheck);
 
 app.listen(port, () => {
     console.log(`server started on http://localhost:${port}`)
